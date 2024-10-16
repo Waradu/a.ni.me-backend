@@ -99,10 +99,10 @@ async fn latest(release_type: Option<&str>) -> CorsResponse {
 
     let data = match response.json::<Vec<GitHubRelease>>().await {
         Ok(data) => data,
-        Err(_) => {
+        Err(e) => {
             return CorsResponse::PlainText {
                 status: Status::InternalServerError,
-                message: "Error parsing releases".to_string(),
+                message: format!("Error parsing releases {:#?}", e).to_string(),
             }
         }
     };
