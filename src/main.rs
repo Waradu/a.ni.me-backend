@@ -233,9 +233,15 @@ fn default(status: Status, _request: &Request) -> String {
 
 #[launch]
 fn rocket() -> _ {
+    let port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse().ok())
+        .unwrap_or(8000);
+
     rocket::build()
         .configure(rocket::Config {
             address: "0.0.0.0".parse().unwrap(),
+            port,
             ..Default::default()
         })
         .mount("/api", routes![latest_default, latest, image_handler])
