@@ -234,6 +234,10 @@ fn default(status: Status, _request: &Request) -> String {
 #[launch]
 fn rocket() -> _ {
     rocket::build()
+        .configure(rocket::Config {
+            address: "0.0.0.0".parse().unwrap(),
+            ..Default::default()
+        })
         .mount("/api", routes![latest_default, latest, image_handler])
         .register("/", catchers![default])
 }
