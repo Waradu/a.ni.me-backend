@@ -87,7 +87,7 @@ async fn latest(release_type: Option<&str>) -> CorsResponse {
     let client = Client::new();
     let url = "https://api.github.com/repos/Waradu/a.ni.me/releases";
 
-    let response = match client.get(url).header("User-Agent", "a.ni.me").send().await {
+    let response = match client.get(url).header("User-Agent", "a.ni.me-api").send().await {
         Ok(resp) => resp,
         Err(_) => {
             return CorsResponse::PlainText {
@@ -144,7 +144,7 @@ async fn latest(release_type: Option<&str>) -> CorsResponse {
 
     let latest_json_response = match client
         .get(&latest_json_url)
-        .header("User-Agent", "a.ni.me")
+        .header("User-Agent", "a.ni.me-api")
         .send()
         .await
     {
