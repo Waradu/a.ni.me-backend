@@ -7,6 +7,7 @@ export async function GET(request: Request) {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "application/json",
   };
 
   try {
@@ -20,7 +21,10 @@ export async function GET(request: Request) {
       )[0];
 
     if (!latestRelease) {
-      return new Response("No releases found", { status: 404, headers: corsHeaders });
+      return new Response("No releases found", {
+        status: 404,
+        headers: corsHeaders,
+      });
     }
 
     const latestJsonUrl = latestRelease.assets.find(
@@ -28,15 +32,21 @@ export async function GET(request: Request) {
     )?.browser_download_url;
 
     if (!latestJsonUrl) {
-      return new Response("latest.json not found", { status: 404, headers: corsHeaders });
+      return new Response("latest.json not found", {
+        status: 404,
+        headers: corsHeaders,
+      });
     }
 
     const latestJson = await axios.get(latestJsonUrl);
     return new Response(JSON.stringify(latestJson.data), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: corsHeaders,
     });
   } catch (error) {
-    return new Response("Error fetching release", { status: 500, headers: corsHeaders });
+    return new Response("Error fetching release", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 }

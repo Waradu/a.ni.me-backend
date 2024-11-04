@@ -8,8 +8,6 @@ export async function GET(request: Request) {
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
-  console.log(animeUrl);
-
   if (
     animeUrl &&
     animeUrl.startsWith("https://cdn.myanimelist.net/images/anime/")
