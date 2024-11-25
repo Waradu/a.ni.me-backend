@@ -185,7 +185,7 @@ async fn image_handler(url: Option<&str>) -> CorsResponse {
         }
     };
 
-    if anime_url.starts_with("https://cdn.myanimelist.net/images/anime/") {
+    if anime_url.starts_with("https://s4.anilist.co/file/anilistcdn/media/anime/cover/") {
         let client = Client::new();
         let response = match client.get(anime_url).send().await {
             Ok(resp) => resp,
