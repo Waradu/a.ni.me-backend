@@ -79,7 +79,7 @@ export async function GET(request: Request) {
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Methods": "*",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
