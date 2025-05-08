@@ -12,6 +12,7 @@ export async function GET(request: Request) {
 
   try {
     const { data } = await axios.get(url);
+
     const latestRelease = data
       .filter((release: any) => !release.draft)
       .sort(
