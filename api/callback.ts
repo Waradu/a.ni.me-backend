@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     return new Response(null, {
       status: 302,
       headers: {
-        Location: `a.ni.me://callback#token=${token}`,
+        Location: `a.ni.me://callback#${token}`,
       },
     });
   } catch (error) {
