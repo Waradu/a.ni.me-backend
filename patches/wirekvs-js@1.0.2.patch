@@ -1,0 +1,49 @@
+diff --git a/src/index.d.ts b/src/index.d.ts
+index e02c4844a38cb62e8280e2edf21567f7d5e55e3f..f9bd4b830e73213b195cc778119c20777340883d 100644
+--- a/src/index.d.ts
++++ b/src/index.d.ts
+@@ -49,8 +49,7 @@ export class WireKVSDatabase extends EventEmitter {
+   disconnect(): void;
+   
+   getAllEntries(): Promise<DatabaseEntry[]>;
+-  get(key: string): Promise<string>;
+-  json<T extends object>(key: string): Promise<T>;
++  get<T extends object>(key: string): Promise<T | undefined>;
+   set(key: string, value: any): Promise<void>;
+   update(key: string, value: any): Promise<void>;
+   delete(key: string): Promise<void>;
+diff --git a/src/index.js b/src/index.js
+index c837e9bd59e9798b97df62063267a2c3b4944dd8..28b740cb812711aac39a64aef6eb4bf02445ad87 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -121,13 +121,24 @@ class WireKVSDatabase extends EventEmitter {
+   }
+ 
+   async get(key) {
+-    const response = await axios.get(
+-      `${API_BASE_URL}/database/${this.id}/${key}`,
+-      {
+-        headers: { Authorization: this.accessKey },
++    try {
++      const response = await axios.get(
++        `${API_BASE_URL}/database/${this.id}/${key}`,
++        {
++          headers: { Authorization: this.accessKey },
++        }
++      );
++      return response.data;
++    } catch (error) {
++      if (
++        axios.isAxiosError(error) &&
++        (error.response?.status === 404 ||
++          error.response?.data?.message === "Key not found")
++      ) {
++        return;
+       }
+-    );
+-    return response.data;
++      throw error;
++    }
+   }
+ 
+   async json(key) {

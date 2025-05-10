@@ -1,16 +1,27 @@
 {
-  "name": "a.ni.me-backend",
+  "name": "backend-next",
   "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --watch server.ts",
+    "build": "bun build server.ts --outdir dist --target bun --minify",
+    "start": "bun run dist/server.js",
+    "deploy": "bun install && bun run build"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.6.3"
+    "typescript": "^5"
   },
-  "type": "module",
   "dependencies": {
-    "axios": "^1.7.7",
-    "redis": "^4.7.0",
-    "vercel": "^41.7.3"
+    "@types/express": "^5.0.1",
+    "axios": "^1.9.0",
+    "express": "^5.1.0",
+    "wirekvs-js": "^1.0.2"
+  },
+  "patchedDependencies": {
+    "wirekvs-js@1.0.2": "patches/wirekvs-js@1.0.2.patch"
   }
 }
